@@ -2,13 +2,41 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
+    "abandonments:recommended",
     "schedule:weekly",
     ":disablePeerDependencies",
     "customManagers:biomeVersions",
-    "helpers:pinGitHubActionDigestsToSemver"
+    "helpers:pinGitHubActionDigestsToSemver",
+    "mergeConfidence:all-badges"
   ],
+  "ignorePresets": [":semanticPrefixFixDepsChoreOthers"],
   "labels": ["dependencies"],
+  "constraints": {
+	  "node": "^26.8.2"
+	},
+	"configMigration": true,
+	"assignees": ["MaxxusX"],
+	"reviewers": ["MaxxusX"],
+	"labels": ["dependencies"],
+	"semanticCommits": "enabled",
+	"semanticCommitType": "chore",
+	"prHourlyLimit": 0,
   "rangeStrategy": "bump",
+  "postUpdateOptions": ["pnpmDedupe"],
+  "customManagers": [
+		{
+			"customType": "jsonata",
+			"fileFormat": "json",
+			"managerFilePatterns": ["package.json"],
+			"matchStrings": [
+				"{ 'currentValue': devEngines.packageManager.version }"
+			],
+			"depNameTemplate": "pnpm",
+			"datasourceTemplate": "npm",
+			"depTypeTemplate": "packageManager",
+			"versioningTemplate": "semver"
+		}
+	],
   "packageRules": [
     {
       "groupName": "github-actions",
@@ -18,7 +46,18 @@
       "matchManagers": ["npm"],
       "matchDepTypes": ["engines"],
       "enabled": false
-    }
+    },
+    {
+			"matchDatasources": ["npm"],
+			"minimumReleaseAge": "1 days",
+			"internalChecksFilter": "strict"
+		},
+		{
+			"matchManagers": ["custom.jsonata"],
+			"matchDepTypes": ["packageManager"],
+			"matchDepNames": ["pnpm"],
+			"commitMessageTopic": "pnpm"
+		}
   ],
-  "minimumReleaseAge": "3 days"
+  "minimumReleaseAge": "1 days"
 }
