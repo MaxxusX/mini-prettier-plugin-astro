@@ -1,4 +1,5 @@
 {
+  "private": "true",
   "name": "prettier-plugin-astro",
   "version": "1.0.0",
   "description": "A Prettier Plugin for formatting Astro files",
@@ -34,7 +35,6 @@
     "lint": "biome lint && eslint --cache",
     "lint:ci": "biome ci --formatter-enabled=false --enforce-assist=false --reporter=github && eslint --cache",
     "lint:fix": "biome lint --write --unsafe && eslint --cache --fix",
-    "release": "pnpm build && changeset publish",
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "test:watch": "vitest -w",
@@ -43,11 +43,9 @@
   "dependencies": {
     "@astrojs/compiler-rs": "^0.4.0",
     "@prettier/parse-srcset": "^3.1.0",
-    "sass-formatter": "^0.8.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.8",
-    "@changesets/cli": "^3.0.0",
+    "@biomejs/biome": "2.5.13",
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/node": "^26.2.0",
@@ -65,8 +63,20 @@
   "peerDependencies": {
     "prettier": "^3.5.3"
   },
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@12.3.4",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=26.8.2"
   }
+  "devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=26.8.2",
+			"onFail": "download"
+		},
+		"packageManager": {
+			"name": "pnpm",
+			"version": "12.3.4",
+			"onFail": "download"
+		}
+	}
 }
